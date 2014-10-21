@@ -52,7 +52,7 @@ if (typeof Object.create !== "function") {
       // input regex
       var ck_name = /^[A-Za-z ]{2,128}$/;
       var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-      var ck_address = /^([0-9]{1,6})([\w\s]{3,128})$/;
+      var ck_address = /^.{10,128}$/;
       var ck_zip = /^[0-9]{5}$/;
       
       if((inputType === 'text') && ((!$input.attr(dataSelector)) || ($input.attr(dataSelector) === ''))) {
@@ -142,7 +142,7 @@ if (typeof Object.create !== "function") {
     validClass : 'valid',
     invalidClass : 'invalid',
     requiredClass : 'required',
-    formItemClass : 'validator-item',
+    formItemClass : 'form-item',
     dataSelector : 'data-validator',
     // TODO :: Add functionality for infinite input wrappers
     //inputWrappers : false,

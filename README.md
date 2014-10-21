@@ -17,14 +17,17 @@ $('#myForm').formValidator({
 });
 
 
-3. Invoking the custom input validation regex strings
+3. Invoking the custom input validation regex strings.
 
-a. The plugin handles text inputs, email inputs, and date inputs right off the bat.
+a. The plugin handles text inputs, email inputs off the bat.
+
+<input type="text" class="form-item" value="" placeholder="" />
 
 b. Utilize the dataSelector to validate address and zip codes. Example as follows:
 
-<input type="text" class="form-item" value="" placeholder="" />
 <input type="text" class="form-item" data-validator="address" value="" placeholder="Address" />
+<input type="text" class="form-item" data-validator="zip" value="" placeholder="Zip" />
+
 
 c. Use the required class to specify whether the input is required or not. Example as follows:
 

@@ -16,6 +16,7 @@
 		<title>RSR Form Validation Plugin</title>
 		<link rel="profile" href="http://gmpg.org/xfn/11">
 
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" media="all" href="/styles/css/app.css">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -25,15 +26,22 @@
 
 	<body>
 		<div class="container">
-			<h1>Welcome to the future of form validation</h1>
+			<h1>Welcome to the future of form validation.</h1>
 			<h2>A jQuery plugin for seamless front-end form validation. HTML5 supported.</h2>
 
 			<form id="myForm">
-				<input class="form-item required" type="text" value="" placeholder="" />
-				<input class="form-item required" type="email" value="" data-validator="" placeholder="" />
-				<input class="form-item required" type="email" value="" data-validator="zip" placeholder="" />
-				<input class="form-item" type="date" value="" placeholder="" />
-
+				<fieldset>
+					<label for="basicTextInput">Name</label>
+					<input class="form-item required" name="basicTextInput" type="text" value="" placeholder="" />
+				</fieldset>
+				<fieldset>
+					<label for="emailInput">Email</label>
+					<input class="form-item required" name="emailInput" type="email" value="" data-validator="" placeholder="" />
+				</fieldset>
+				<fieldset>
+					<label for="addressInput">Address</label>
+					<input class="form-item required" name="addressInput" type="email" value="" data-validator="address" placeholder="" />
+				</fieldset>
 				<input type="submit" id="submitButton" value="Submit" disabled />
 			</form>
 		</div>
