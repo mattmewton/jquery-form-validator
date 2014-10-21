@@ -1,16 +1,12 @@
 This plugin is an alternative for developers who don't want to rely on every aspect of the HTML5 Constraint API, or who have clients that want more stylistic customization requirements for cross-brower / cross-device and don't want to rely on HTML5 base browser styles.
 
 
-
-
-
-
-
 1. How it works
 
 The plugin checks each child input of your form and adds either a valid or invalid class to the input. 
 
 There are a few predefined validation regex strings available to you. We will be adding more in the future, as well as the ability to add your own custom regexes. 
+
 
 2. Plugin instantiation
 
@@ -27,8 +23,18 @@ a. The plugin handles text inputs, email inputs, and date inputs right off the b
 
 b. Utilize the dataSelector to validate address and zip codes. Example as follows:
 
-<input type="text" class="form-item required" value="" placeholder="" />
+<input type="text" class="form-item" value="" placeholder="" />
+<input type="text" class="form-item" data-validator="address" value="" placeholder="Address" />
+
+c. Use the required class to specify whether the input is required or not. Example as follows:
+
 <input type="text" class="form-item required" data-validator="address" value="" placeholder="Address" />
+
+d. Make sure your submit button is disabled. Example as follows:
+
+<input type="submit" id="submitButton" disabled />
+
+e. If the amount of valid inputs matches the amount of required inputs, your submit button will become enabled automatically.
 
 
 4. Customization options
