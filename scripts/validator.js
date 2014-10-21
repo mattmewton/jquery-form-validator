@@ -24,11 +24,10 @@ if (typeof Object.create !== "function") {
 
       if (base.$elem.children().length === 0) {return false; }
       
+      // TODO :: Use this variable to hook into custom user functions on valid form
       base.formValid = false;
       base.$formItems = base.$elem.find('.' + base.options.formItemClass);
       base.$requiredFormItems = base.$formItems.hasClass(base.options.requiredSelector);
-
-      // initialize 
 
       // initialize base functions
       base.checkInputType();
@@ -123,8 +122,10 @@ if (typeof Object.create !== "function") {
 
       if(base.$elem.find('.valid').length === base.$elem.find('.required').length) {
         document.getElementById(base.options.submitButtonEl).disabled = false;
+        base.formValid = true;
       } else {
         document.getElementById(base.options.submitButtonEl).disabled = true;
+        base.formValid = false;
       }
     }
 
@@ -151,15 +152,16 @@ if (typeof Object.create !== "function") {
     requiredClass : 'required',
     formItemClass : 'validator-item',
     dataSelector : 'data-validator',
-    inputWrappers : false,
-    inputWrapParentLevel : 1,
+    // TODO :: Add functionality for infinite input wrappers
+    //inputWrappers : false,
+    //inputWrapParentLevel : 1,
     onFieldValid : false,
     onFieldInvalid : false,
-    submitButtonEl : 'submitButton'
+    submitButtonEl : 'submitButton',
     // TODO :: Implement HTML5 required attribute option
     // useHTML5RequiredAttribute : false
     // TODO :: Add hooks so users can write custom AJAX calls after form is valid
-    // onFormValid : false,
+    onFormValid : false // Note, this is currently not doing anything
     // onFormInvalid : false
   };
 
