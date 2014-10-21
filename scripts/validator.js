@@ -28,6 +28,8 @@ if (typeof Object.create !== "function") {
       base.$formItems = base.$elem.find('.' + base.options.formItemClass);
       base.$requiredFormItems = base.$formItems.hasClass(base.options.requiredSelector);
 
+      // initialize 
+
       // initialize base functions
       base.checkInputType();
     },
@@ -47,10 +49,10 @@ if (typeof Object.create !== "function") {
       var base = this;
       var dataSelector = base.options.dataSelector;
       var inputType = $input.attr('type');
+      
       // input regex
       var ck_name = /^[A-Za-z ]{2,128}$/;
       var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-      //var ck_date = 
       var ck_address = /^([0-9]{1,6})([\w\s]{3,128})$/;
       var ck_zip = /^[0-9]{5}$/;
       //var ck_address = /^[0-9]{1,8}$/;
@@ -74,7 +76,7 @@ if (typeof Object.create !== "function") {
         // address validation
         base.testInput($input, ck_address)
       } else if(dataSelector.indexOf('zip')) {
-        // address validation
+        // zip code validation
         base.testInput($input, ck_zip)
       } else {
         // more options to come
@@ -87,9 +89,11 @@ if (typeof Object.create !== "function") {
       
       if(!validationType.test(inputVal)) {
         base.onFieldInvalid($input);
+        base.checkForm();
         return false;
       } else {
         base.onFieldValid($input);
+        base.checkForm();
         return true;
       } 
     },
@@ -113,7 +117,17 @@ if (typeof Object.create !== "function") {
       // default logic to go here
     },
 
-    onFormValid : function () {
+    checkForm : function($input) {
+      var base = this;
+
+      if(base.$elem.find('.valid').length === base.$elem.find('.required').length) {
+        document.getElementById(base.options.submitButtonEl).disabled = false;
+      } else {
+        document.getElementById(base.options.submitButtonEl).disabled = true;
+      }
+    }
+
+    /*onFormValid : function () {
       var base = this;
       // default logic to go here
     },
@@ -121,7 +135,7 @@ if (typeof Object.create !== "function") {
     onFormInvalid : function () {
       var base = this;
       // default logic to go here
-    }
+    } */
   }
 
   $.fn.formValidator = function (options) {
@@ -140,8 +154,9 @@ if (typeof Object.create !== "function") {
     inputWrapParentLevel : 1,
     onFieldValid : false,
     onFieldInvalid : false,
-    onFormValid : false,
-    onFormInvalid : false
+    submitButtonEl : 'submitButton'
+    //onFormValid : false,
+    //onFormInvalid : false
   };
 
 })( jQuery, window, document );
