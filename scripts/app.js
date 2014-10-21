@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
 	$('#myForm').formValidator({
-		formItemClass : 'form-item'
+		// user optiuns go here
 	});
 });

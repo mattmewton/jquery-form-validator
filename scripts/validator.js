@@ -54,17 +54,9 @@ if (typeof Object.create !== "function") {
       var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
       var ck_address = /^([0-9]{1,6})([\w\s]{3,128})$/;
       var ck_zip = /^[0-9]{5}$/;
-      //var ck_phone = /^\(\d{3}\)\ \d{3}-\d{4}$/;
-      //var ck_address = /^[0-9]{1,8}$/;
-      //var ck_appt = /^[A-Za-z0-9 ]{0,128}$/;
-      //var ck_phone = /^\d{3}-\d{3}-\d{4}$/;
-      //var ck_ssn = /^\d{3}-\d{2}-\d{4}$/;
-
-      console.log($input.attr(dataSelector));
-
+      
       if((inputType === 'text') && ((!$input.attr(dataSelector)) || ($input.attr(dataSelector) === ''))) {
         // basic text validation
-        console.log('basic text');
         base.testInput($input, ck_name);
       } else if(inputType === 'email') {
         // email validation
