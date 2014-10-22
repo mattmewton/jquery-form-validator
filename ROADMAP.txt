@@ -1,0 +1,17 @@
+Form Validation Plugin Feature List
+
+* Support for custom user functions for onFormValid
+
+* Support for custom regex
+     * Move all regex into array that can be accessed and overwritten by user if needed
+* Custom error messages
+* Incorporate aspects of HTML5 Constraint API : https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation
+
+* Support for date input
+* Support for URL inputs
+* Support for phone numbers
+* Support for HTML5 required attribute 
+* Support for number input type
+* Support for select boxes
+* Support for checkboxes
+* Custom style/icon support for valid / invalid classes
