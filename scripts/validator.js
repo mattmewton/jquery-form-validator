@@ -144,17 +144,9 @@ if (typeof Object.create !== "function") {
     requiredClass : 'required',
     formItemClass : 'form-item',
     dataSelector : 'data-validator',
-    // TODO :: Add functionality for infinite input wrappers
-    //inputWrappers : false,
-    //inputWrapParentLevel : 1,
     onFieldValid : false,
     onFieldInvalid : false,
-    submitButtonEl : 'submitButton',
-    // TODO :: Implement HTML5 required attribute option
-    // useHTML5RequiredAttribute : false
-    // TODO :: Add hooks so users can write custom AJAX calls after form is valid
-    onFormValid : false // Note, this is currently not doing anything
-    // onFormInvalid : false
+    submitButtonEl : 'submitButton'
   };
 
 })( jQuery, window, document );
