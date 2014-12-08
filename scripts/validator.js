@@ -54,8 +54,16 @@ if (typeof Object.create !== "function") {
       var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
       var ck_address = /^([0-9]{1,6})([\w\s]{3,128})$/;
       var ck_zip = /^[0-9]{5}$/;
-      
-      if((inputType === 'text') && ((!$input.attr(dataSelector)) || ($input.attr(dataSelector) === ''))) {
+
+      if($input.attr(dataSelector) && $input.attr(dataSelector).indexOf('/') == 0) {
+        // custom regex always takes precedence
+        // cast string to regex
+        var regex = new RegExp( $input.attr(dataSelector).replace(/\/(.*)\//, '$1') );
+        base.testInput($input, regex);
+      } else if($input[0].nodeName.toLowerCase() === 'select') {
+        // skip select for now
+        base.onFieldValid($input);
+      } else if((inputType === 'text') && ((!$input.attr(dataSelector)) || ($input.attr(dataSelector) === ''))) {
         // basic text validation
         base.testInput($input, ck_name);
       } else if(inputType === 'email') {
@@ -112,7 +120,7 @@ if (typeof Object.create !== "function") {
     checkForm : function($input) {
       var base = this;
 
-      if(base.$elem.find('.valid').length === base.$elem.find('.required').length) {
+      if(base.$elem.find('.required.valid').length === base.$elem.find('.required').length) {
         document.getElementById(base.options.submitButtonEl).disabled = false;
         base.formValid = true;
       } else {
@@ -144,17 +152,9 @@ if (typeof Object.create !== "function") {
     requiredClass : 'required',
     formItemClass : 'form-item',
     dataSelector : 'data-validator',
-    // TODO :: Add functionality for infinite input wrappers
-    //inputWrappers : false,
-    //inputWrapParentLevel : 1,
     onFieldValid : false,
     onFieldInvalid : false,
-    submitButtonEl : 'submitButton',
-    // TODO :: Implement HTML5 required attribute option
-    // useHTML5RequiredAttribute : false
-    // TODO :: Add hooks so users can write custom AJAX calls after form is valid
-    onFormValid : false // Note, this is currently not doing anything
-    // onFormInvalid : false
+    submitButtonEl : 'submitButton'
   };
 
 })( jQuery, window, document );
