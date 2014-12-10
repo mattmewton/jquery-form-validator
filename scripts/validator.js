@@ -52,7 +52,8 @@ if (typeof Object.create !== "function") {
       // input regex
       var ck_name = /^[A-Za-z ]{2,128}$/;
       var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-      var ck_address = /^([0-9]{1,6})([\w\s]{3,128})$/;
+      var ck_address_line_1 = /^([0-9]{1,6})([\w\s]{3,128})$/;
+      var ck_address_line_2 = /^.{3,128}$/;
       var ck_zip = /^[0-9]{5}$/;
 
       if($input.attr(dataSelector) && $input.attr(dataSelector).indexOf('/') == 0) {
@@ -61,8 +62,8 @@ if (typeof Object.create !== "function") {
         var regex = new RegExp( $input.attr(dataSelector).replace(/\/(.*)\//, '$1') );
         base.testInput($input, regex);
       } else if($input[0].nodeName.toLowerCase() === 'select') {
-        // skip select for now
-        base.onFieldValid($input);
+        // basic select validation
+        base.validateSelect($input);
       } else if((inputType === 'text') && ((!$input.attr(dataSelector)) || ($input.attr(dataSelector) === ''))) {
         // basic text validation
         base.testInput($input, ck_name);
@@ -72,9 +73,12 @@ if (typeof Object.create !== "function") {
       } else if(inputType === 'date') {
         // date validation
         base.testInput($input);
-      } else if(dataSelector.indexOf('address')) {
+      } else if(dataSelector.indexOf('address-one')) {
         // address validation
-        base.testInput($input, ck_address)
+        base.testInput($input, ck_address_line_1)
+      } else if(dataSelector.indexOf('address-two')) {
+        // address validation
+        base.testInput($input, ck_address_line_2)
       } else if(dataSelector.indexOf('zip')) {
         // zip code validation
         base.testInput($input, ck_zip)
@@ -98,23 +102,32 @@ if (typeof Object.create !== "function") {
       } 
     },
 
-    /*validateSelect : function ($input) {
+    validateSelect : function ($select) {
       var base = this;
 
-    },*/
+      if($select != null && $select.selectedIndex > 0){
+        return true;
+      } else {
+        return false;
+      }
+    },
 
     onFieldValid : function ($input) {
       var base = this;
 
       $input.removeClass(base.options.invalidClass).addClass(base.options.validClass);
-      // default logic to go here
+      $input.parent().find('> i').remove();
+      $input.parent().append('<i class="fa fa-check-circle"></i>');
+      $input.removeClass('valid').addClass('invalid');
     },
 
     onFieldInvalid : function ($input) {
       var base = this;
 
       $input.removeClass(base.options.validClass).addClass(base.options.invalidClass);
-      // default logic to go here
+      $input.parent().find('> i').remove();
+      $input.parent().append('<i class="fa fa-times-circle"></i>');
+      $input.removeClass('valid').addClass('invalid');
     },
 
     checkForm : function($input) {
@@ -124,25 +137,15 @@ if (typeof Object.create !== "function") {
         document.getElementById(base.options.submitButtonEl).disabled = false;
         base.formValid = true;
       } else {
+        console.log('go');
         document.getElementById(base.options.submitButtonEl).disabled = true;
         base.formValid = false;
       }
     }
-
-    /*onFormValid : function () {
-      var base = this;
-      // default logic to go here
-    },
-
-    onFormInvalid : function () {
-      var base = this;
-      // default logic to go here
-    } */
   }
 
   $.fn.formValidator = function (options) {
     var validator = Object.create(Validator);
-    console.log(validator);
     validator.init(options, this);
   };
 
