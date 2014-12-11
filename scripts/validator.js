@@ -52,16 +52,19 @@ if (typeof Object.create !== "function") {
       // input regex
       var ck_name = /^[A-Za-z ]{2,128}$/;
       var ck_email = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-      var ck_address_line_1 = /^([0-9]{1,6})([\w\s]{3,128})$/;
-      var ck_address_line_2 = /^.{3,128}$/;
+      var ck_phone = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
+      var ck_address = /^([0-9]{1,6})([\w\s]{3,128})$/;
+      var ck_address_apt = /^.{1,128}$/;
       var ck_zip = /^[0-9]{5}$/;
 
-      if($input.attr(dataSelector) && $input.attr(dataSelector).indexOf('/') == 0) {
+      //if($input.attr(dataSelector) && $input.attr(dataSelector).indexOf('/')) {
         // custom regex always takes precedence
         // cast string to regex
-        var regex = new RegExp( $input.attr(dataSelector).replace(/\/(.*)\//, '$1') );
-        base.testInput($input, regex);
-      } else if($input[0].nodeName.toLowerCase() === 'select') {
+        //var regex = new RegExp( $input.attr(dataSelector).replace(/\/(.*)\//, '$1') );
+        //base.testInput($input, regex);
+        //console.log('custom regex');
+      //} 
+      if($input[0].nodeName.toLowerCase() === 'select') {
         // basic select validation
         base.validateSelect($input);
       } else if((inputType === 'text') && ((!$input.attr(dataSelector)) || ($input.attr(dataSelector) === ''))) {
@@ -70,16 +73,19 @@ if (typeof Object.create !== "function") {
       } else if(inputType === 'email') {
         // email validation
         base.testInput($input, ck_email)
+      } else if(inputType === 'tel') {
+        // phone validation
+        base.testInput($input, ck_phone)
       } else if(inputType === 'date') {
         // date validation
         base.testInput($input);
-      } else if(dataSelector.indexOf('address-one')) {
+      } else if($input.attr(dataSelector).indexOf('address') >= 0) {
         // address validation
-        base.testInput($input, ck_address_line_1)
-      } else if(dataSelector.indexOf('address-two')) {
+        base.testInput($input, ck_address);
+      } else if($input.attr(dataSelector).indexOf('floorSuiteApt') >= 0) {
         // address validation
-        base.testInput($input, ck_address_line_2)
-      } else if(dataSelector.indexOf('zip')) {
+        base.testInput($input, ck_address_apt);
+      } else if($input.attr(dataSelector).indexOf('zip') >= 0) {
         // zip code validation
         base.testInput($input, ck_zip)
       } else {
@@ -104,10 +110,15 @@ if (typeof Object.create !== "function") {
 
     validateSelect : function ($select) {
       var base = this;
+      var selectID = $select.attr('id');
 
-      if($select != null && $select.selectedIndex > 0){
+      if($select !== null && document.getElementById(selectID).selectedIndex > 0){
+        base.onFieldValid($select);
+        base.checkForm();
         return true;
       } else {
+        base.onFieldInvalid($select);
+        base.checkForm();
         return false;
       }
     },
@@ -118,7 +129,7 @@ if (typeof Object.create !== "function") {
       $input.removeClass(base.options.invalidClass).addClass(base.options.validClass);
       $input.parent().find('> i').remove();
       $input.parent().append('<i class="fa fa-check-circle"></i>');
-      $input.removeClass('valid').addClass('invalid');
+      $input.removeClass('invalid').addClass('valid');
     },
 
     onFieldInvalid : function ($input) {
@@ -137,7 +148,6 @@ if (typeof Object.create !== "function") {
         document.getElementById(base.options.submitButtonEl).disabled = false;
         base.formValid = true;
       } else {
-        console.log('go');
         document.getElementById(base.options.submitButtonEl).disabled = true;
         base.formValid = false;
       }
